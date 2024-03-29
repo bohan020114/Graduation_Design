@@ -1,0 +1,32 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "My Design Compile(UMFPACK)",
+            "command": "/usr/bin/g++",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${workspaceFolder}/my_code/src/*.cpp", // 匹配文件夹中的所有 .cpp 文件
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "-I/usr/include/suitesparse",
+                "-I${workspaceFolder}/my_code/include",
+                "-L/usr/lib",
+                "-lumfpack"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "编译器: /usr/bin/g++"
+        }
+    ]
+}
