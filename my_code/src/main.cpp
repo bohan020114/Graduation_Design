@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Bohan Wang
  * @Date: 2024-03-29 15:15:53
- * @LastEditTime: 2024-04-01 23:07:25
+ * @LastEditTime: 2024-04-04 15:59:42
  * @LastEditors:  
  */
 #include <iostream>
@@ -12,6 +12,7 @@
 #include "Function.h"
 #include "Read.h"
 #include "RCindicesToSRC.h"
+#include "KluDecomposition.h"
 
 int main() {
     // 设置时钟启动
@@ -26,8 +27,19 @@ int main() {
     const std::vector<FileReader::Entry>& entries = reader.getEntries();
     csr.ConvertToCSR(reader.getEntries(), reader.getDim(), reader.getEntries().size());
     
-    // 时钟计时结果
+    auto arrays = csr.getCSRArrays();
+    // 获取 Ap, Ai, Ax
+    std::vector<int> Ap = std::get<0>(arrays);
+    std::vector<int> Ai = std::get<1>(arrays);
+    std::vector<double> Ax = std::get<2>(arrays);
+    
+    // 调用 perform_lu_decomposition 函数
+    perform_lu_decomposition(Ap.size() - 1, Ap.data(), Ai.data(), Ax.data());
+    print_lu_decomposition(Ap.size() - 1, Ap.data(), Ai.data(), Ax.data());
+   
+   // 时钟计时结果
     std::cout << "Total time: " << timer.elapsed() << " seconds" << std::endl;
+    
     // 检测部分
     // 遍历 entries 向量的前 20 个元素并打印每个元素
         std::cout << "Printing first 20 entries:" << std::endl;
