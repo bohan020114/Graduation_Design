@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Bohan Wang
  * @Date: 2024-04-02 15:59:12
- * @LastEditTime: 2024-04-09 16:58:38
+ * @LastEditTime: 2024-04-10 02:49:43
  * @LastEditors:  
  */
 #ifndef KLU_DECOMPOSITION_H
@@ -57,7 +57,7 @@ int perform_lu_decomposition(int n, int *Ap, int *Ai, double *Ax) {
     
     // 设置KLU库的参数
     klu_defaults(&Common);
-    char print = false;
+    char print = true;
     if(print == true){    
         std::cout << "n_in_perform_lu_decomposition:" << n << std::endl;
         // 打印 Ap 数组的前五项
@@ -72,10 +72,23 @@ int perform_lu_decomposition(int n, int *Ap, int *Ai, double *Ax) {
         for (int i = 0; i < 5; ++i) {
             std::cout << " " << Ai[i];
         }
-        std::cout << std::endl;}
+        std::cout << std::endl;
+    }
+
+    char dprint = false;
+    if(dprint == true){
+        int size_of_Ap = sizeof(Ap) / sizeof(Ap[0]);
+        int size_of_Ai = sizeof(Ai) / sizeof(Ai[0]);
+        int size_of_Ax = sizeof(Ax) / sizeof(Ax[0]);
+        std::cout << "in function: " << size_of_Ap << " " << size_of_Ai << " " << size_of_Ax << std::endl;
+    }
+    
 
     // 进行符号分析
     Symbolic = klu_analyze(n, Ap, Ai, &Common);
+    std::cout << "Symbolic_rank:" << Symbolic->structural_rank << std::endl;
+    // std::cout << Symbolic->n << std::endl;
+    // std::cout << Symbolic->do_btf << std::endl;
     if (Symbolic == nullptr) {
         // 分析失败，打印错误信息
         std::cerr << "Error: klu_analyze failed." << std::endl;
@@ -89,12 +102,12 @@ int perform_lu_decomposition(int n, int *Ap, int *Ai, double *Ax) {
    
     // 执行数值LU分解
     Numeric = klu_factor(Ap, Ai, Ax, Symbolic, &Common);
-    // std::cout << "Numeric" << Numeric << std::endl;
-    if (Numeric != KLU_OK) {
-        printf("Error: Numeric factorization failed.\n");
-        klu_free_symbolic(&Symbolic, &Common); // 释放Symbolic对象
-        return -1;
-    }
+    std::cout << "Numeric: " << Numeric->lnz << std::endl;
+    // if (Numeric != KLU_OK) {
+    //     printf("Error: Numeric factorization failed.\n");
+    //     klu_free_symbolic(&Symbolic, &Common); // 释放Symbolic对象
+    //     return -1;
+    // }
     
     // 释放符号对象
     klu_free_symbolic(&Symbolic, &Common);

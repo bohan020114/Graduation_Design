@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Bohan Wang
  * @Date: 2024-03-29 20:25:28
- * @LastEditTime: 2024-04-06 16:01:51
+ * @LastEditTime: 2024-04-10 02:22:50
  * @LastEditors:  
  */
 #ifndef READ_H
@@ -18,11 +18,11 @@
 class FileReader {
 public:
     struct Entry {
-        long long j;
-        long long jcol;
-        long long i;
-        long long irow;
-        long double value;
+        int j;
+        int jcol;
+        int i;
+        int irow;
+        double value;
     };
 
     void readAndStoreData(const std::string& filename) {
@@ -44,7 +44,7 @@ public:
             if (line.empty())
                 continue;
             // 使用scanf开始读入
-            if (sscanf(line.c_str(), "(j:%lld,jcol:%lld,i:%lld,irow:%lld) %Lf",
+            if (sscanf(line.c_str(), "(j:%d,jcol:%d,i:%d,irow:%d) %lf",
                        &entry.j, &entry.jcol, &entry.i, &entry.irow, &entry.value) != 5) {
                 std::cerr << "Error parsing line: " << line << std::endl;
                 continue;
@@ -52,6 +52,7 @@ public:
             // 将解析出的数据存入entries数组中
             entries.push_back(entry);
         }
+
         // 计算dim
         dimCalculation();
         // 关闭文件
@@ -64,7 +65,7 @@ public:
     }
     
     void dimCalculation() {
-        for (const auto& entry : entries) {
+        for (const auto& entry : entries) { 
             dim = std::max({dim, entry.i, entry.j});
         }
     }
@@ -75,7 +76,7 @@ public:
 
 private:
     std::vector<Entry> entries;
-    long long int dim;
+    int dim;
 };
 
 #endif // READ_H

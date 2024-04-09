@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Bohan Wang
  * @Date: 2024-03-29 15:15:53
- * @LastEditTime: 2024-04-09 16:58:28
+ * @LastEditTime: 2024-04-10 02:48:02
  * @LastEditors:  
  */
 #include <iostream>
@@ -15,6 +15,7 @@
 #include "KluDecomposition.h"
 
 int main() {
+    // std::cout << "Maximum value of int: " << std::numeric_limits<int>::max() << std::endl;
     // 设置时钟启动
     Timer timer;
     // 定义部分
@@ -25,23 +26,21 @@ int main() {
     // 调用函数读取并存储数据
     reader.readAndStoreData(DataPath);
     const std::vector<FileReader::Entry>& entries = reader.getEntries();
-    csr.ConvertToCSR(reader.getEntries(), reader.getDim(), reader.getEntries().size());
-    
-    auto arrays = csr.getCSRArrays();
-    // 获取 Ap, Ai, Ax
-    std::vector<int> Ap = std::get<0>(arrays);
-    std::vector<int> Ai = std::get<1>(arrays);
-    std::vector<double> Ax = std::get<2>(arrays);
-    
+    std::cout << "dim: " << reader.getDim() << std::endl;
+    auto [Ap, Ai, Ax] = csr.ConvertToCSR(reader.getEntries(), reader.getDim(), reader.getEntries().size());
+    // CSRWriter::WriteToTextFiles(Ap, Ai, Ax, reader.getDim() + 2, reader.getEntries().size());
     // 调用 perform_lu_decomposition 函数
-    int check_lu = perform_lu_decomposition(Ap.size() - 1, Ap.data(), Ai.data(), Ax.data());
+    int check_lu = perform_lu_decomposition(reader.getDim() + 1, Ap, Ai, Ax);
     if(check_lu == 0){
-        print_lu_decomposition(Ap.size() - 1, Ap.data(), Ai.data(), Ax.data());
+        print_lu_decomposition(reader.getDim() + 1, Ap, Ai, Ax);
     }
    
     // 时钟计时结果
     std::cout << "Total time: " << timer.elapsed() << " seconds" << std::endl;
-    
+     // 记得在使用完指针后释放内存
+    delete[] Ap;
+    delete[] Ai;
+    delete[] Ax;
     // 检测部分
     char check = false;
     if(check == true){
