@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Bohan Wang
  * @Date: 2024-03-30 20:02:58
- * @LastEditTime: 2024-04-04 16:31:59
+ * @LastEditTime: 2024-04-06 16:02:00
  * @LastEditors:  
  */
 #ifndef CSR_CONVERTER_H
@@ -22,16 +22,15 @@ public:
 
     void ConvertToCSR(const std::vector<FileReader::Entry>& entries,
                   int row_num, int row_pos){
+        std::cout << "---ConvertToCSR---" << std::endl;
         row_num = row_num + 1;
         int pos = 0;
         // 初始化 csrformat 向量
         csrformat.resize(1); // 设置为 1 个元素
-        
-        std::cout << "size for en: " << row_pos << std::endl;
-        std::cout << "size for dim: " << row_num << std::endl;
+        // std::cout << "size for en: " << row_pos << std::endl;
+        // std::cout << "size for dim: " << row_num << std::endl;
         // 为所有 CSRMatrix 结构体分配内存并初始化长度
         for (auto& csr : csrformat) {
-            std::cout << "here" << std::endl;
             // 初始化 Ap、Ai、Ax 数组为 0
             csr.Ap.resize(row_num, 0); // 使用 resize() 初始化为 0
             csr.Ai.resize(row_pos, 0);
@@ -77,6 +76,7 @@ public:
                 std::cout << std::endl;
             }
         }
+        std::cout << "---ConvertToCSR finish---" << std::endl;
     }
 
     void printCSR(const CSRMatrix& csr, long long int row_num, long long int row_pos) {

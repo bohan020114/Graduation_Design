@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Bohan Wang
  * @Date: 2024-03-29 20:25:28
- * @LastEditTime: 2024-04-01 19:04:46
+ * @LastEditTime: 2024-04-06 16:01:51
  * @LastEditors:  
  */
 #ifndef READ_H
@@ -26,6 +26,7 @@ public:
     };
 
     void readAndStoreData(const std::string& filename) {
+        std::cout << "---readAndStoreData---" << std::endl;
         dim = 0;
         std::string line;
         // 打开文件
@@ -55,6 +56,7 @@ public:
         dimCalculation();
         // 关闭文件
         file.close();
+        std::cout << "---readAndStoreData finish---" << std::endl;
     }
 
     const std::vector<Entry>& getEntries() const {

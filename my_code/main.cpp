@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Bohan Wang
  * @Date: 2024-03-29 15:15:53
- * @LastEditTime: 2024-04-04 15:59:42
+ * @LastEditTime: 2024-04-09 16:58:28
  * @LastEditors:  
  */
 #include <iostream>
@@ -34,14 +34,18 @@ int main() {
     std::vector<double> Ax = std::get<2>(arrays);
     
     // 调用 perform_lu_decomposition 函数
-    perform_lu_decomposition(Ap.size() - 1, Ap.data(), Ai.data(), Ax.data());
-    print_lu_decomposition(Ap.size() - 1, Ap.data(), Ai.data(), Ax.data());
+    int check_lu = perform_lu_decomposition(Ap.size() - 1, Ap.data(), Ai.data(), Ax.data());
+    if(check_lu == 0){
+        print_lu_decomposition(Ap.size() - 1, Ap.data(), Ai.data(), Ax.data());
+    }
    
-   // 时钟计时结果
+    // 时钟计时结果
     std::cout << "Total time: " << timer.elapsed() << " seconds" << std::endl;
     
     // 检测部分
-    // 遍历 entries 向量的前 20 个元素并打印每个元素
+    char check = false;
+    if(check == true){
+        // 遍历 entries 向量的前 20 个元素并打印每个元素
         std::cout << "Printing first 20 entries:" << std::endl;
         int count = 0;
         for (const auto& entry : entries) {
@@ -51,8 +55,8 @@ int main() {
             std::cout << "Entry: (" << entry.i << ", " << entry.j << "), Value: " << entry.value << std::endl;
             count++;
         }
-    std::cout << "dim: " << reader.getDim() << std::endl;
-    std::cout << "Total valid lines:(useget)" << reader.getEntries().size() << std::endl;
-   
+        std::cout << "dim: " << reader.getDim() << std::endl;
+        std::cout << "Total valid lines:(useget)" << reader.getEntries().size() << std::endl;
+    }
     return 0;
 }

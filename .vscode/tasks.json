@@ -8,13 +8,13 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${workspaceFolder}/my_code/src/*.cpp", // 匹配文件夹中的所有 .cpp 文件
+                "${workspaceFolder}/my_code/src/*.cpp", // 匹配文件夹中的所有.cpp 文件
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",
                 "-I/usr/include/suitesparse",
                 "-I${workspaceFolder}/my_code/include",
-                "-L/usr/lib/aarch64-linux-gnu", // 注意这里更改为 KLU 库的路径
-                "-lklu" // 使用 KLU 库
+                "-L/usr/lib/aarch64-linux-gnu", 
+                "-lklu" 
             ],
             "options": {
                 "cwd": "${fileDirname}"
