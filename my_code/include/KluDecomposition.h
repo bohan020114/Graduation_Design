@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Bohan Wang
  * @Date: 2024-04-02 15:59:12
- * @LastEditTime: 2024-04-10 02:49:43
+ * @LastEditTime: 2024-04-11 17:12:38
  * @LastEditors:  
  */
 #ifndef KLU_DECOMPOSITION_H
@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <klu.h>
 #include <iostream>
+#include <vector>
+#include "WriteLUinSRC.h"
 
 void print_LU_factors(const klu_numeric *Numeric) {
     std::cout << "LU Decomposition Result:" << std::endl;
@@ -57,7 +59,7 @@ int perform_lu_decomposition(int n, int *Ap, int *Ai, double *Ax) {
     
     // 设置KLU库的参数
     klu_defaults(&Common);
-    char print = true;
+    char print = false;
     if(print == true){    
         std::cout << "n_in_perform_lu_decomposition:" << n << std::endl;
         // 打印 Ap 数组的前五项
@@ -82,11 +84,10 @@ int perform_lu_decomposition(int n, int *Ap, int *Ai, double *Ax) {
         int size_of_Ax = sizeof(Ax) / sizeof(Ax[0]);
         std::cout << "in function: " << size_of_Ap << " " << size_of_Ai << " " << size_of_Ax << std::endl;
     }
-    
 
     // 进行符号分析
     Symbolic = klu_analyze(n, Ap, Ai, &Common);
-    std::cout << "Symbolic_rank:" << Symbolic->structural_rank << std::endl;
+    // std::cout << "Symbolic_rank:" << Symbolic->structural_rank << std::endl;
     // std::cout << Symbolic->n << std::endl;
     // std::cout << Symbolic->do_btf << std::endl;
     if (Symbolic == nullptr) {
@@ -108,6 +109,44 @@ int perform_lu_decomposition(int n, int *Ap, int *Ai, double *Ax) {
     //     klu_free_symbolic(&Symbolic, &Common); // 释放Symbolic对象
     //     return -1;
     // }
+    char write_in = true;
+    if(write_in == true){    
+        int lnz = Numeric->lnz;
+        int unz = Numeric->unz;
+            std::vector<int> Lp(n + 1);
+            std::vector<int> Li(lnz);
+            std::vector<int> Up(n + 1);
+            std::vector<int> Ui(unz);
+            std::vector<double> Lx(lnz);
+            std::vector<double> Ux(unz);
+        // std::cout << "here1" << std::endl;
+        int success = klu_extract(Numeric, Symbolic,
+                              Lp.data(), Li.data(), Lx.data(),
+                              Up.data(), Ui.data(), Ux.data(),
+                              NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+                              &Common);
+        // std::cout << "here2" << std::endl;
+        FILE *fileL;
+        fileL = fopen("L.txt", "w");
+        if (fileL == NULL) {
+            printf("Error opening the file.\n");
+        return 1;
+        }
+        write_base(fileL, n + 1, lnz, lnz);
+        write_int_array(fileL, Lp.data(), n + 1);
+        write_int_array(fileL, Li.data(), lnz);
+        write_double_array(fileL, Lx.data(), lnz);
+        FILE *fileU;
+        fileU = fopen("U.txt", "w");
+        if (fileU == NULL) {
+            printf("Error opening the file.\n");
+        return 1;
+        }
+        write_base(fileU, n + 1, unz, unz);
+        write_int_array(fileU, Up.data(), n + 1);
+        write_int_array(fileU, Ui.data(), unz);
+        write_double_array(fileU, Ux.data(), unz);
+    }
     
     // 释放符号对象
     klu_free_symbolic(&Symbolic, &Common);
@@ -137,6 +176,5 @@ void print_lu_decomposition(const int n, const int *Ap, const int *Ai, const dou
     }
     std::cout << std::endl;
 }
-
 
 #endif // KLU_DECOMPOSITION_H

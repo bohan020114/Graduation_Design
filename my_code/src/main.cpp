@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Bohan Wang
  * @Date: 2024-03-29 15:15:53
- * @LastEditTime: 2024-04-10 02:48:02
+ * @LastEditTime: 2024-04-11 17:11:35
  * @LastEditors:  
  */
 #include <iostream>
@@ -13,6 +13,7 @@
 #include "Read.h"
 #include "RCindicesToSRC.h"
 #include "KluDecomposition.h"
+#include "WriteLUinSRC.h"
 
 int main() {
     // std::cout << "Maximum value of int: " << std::numeric_limits<int>::max() << std::endl;
@@ -32,12 +33,12 @@ int main() {
     // 调用 perform_lu_decomposition 函数
     int check_lu = perform_lu_decomposition(reader.getDim() + 1, Ap, Ai, Ax);
     if(check_lu == 0){
-        print_lu_decomposition(reader.getDim() + 1, Ap, Ai, Ax);
+        std::cout << "LU OK" << std::endl;
     }
    
     // 时钟计时结果
     std::cout << "Total time: " << timer.elapsed() << " seconds" << std::endl;
-     // 记得在使用完指针后释放内存
+    // 释放内存
     delete[] Ap;
     delete[] Ai;
     delete[] Ax;
