@@ -3,7 +3,7 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "My Design Compile(KLU)",
+            "label": "My Design Compile (KLU + UMFPACK + NICSLU)",
             "command": "/usr/bin/g++",
             "args": [
                 "-fdiagnostics-color=always",
@@ -13,35 +13,12 @@
                 "${fileDirname}/${fileBasenameNoExtension}",
                 "-I/usr/include/suitesparse",
                 "-I${workspaceFolder}/my_code/include",
+                "-I${workspaceFolder}/GitHub/Chen_xiaoming/nicslu/nicslu202110/include",
                 "-L/usr/lib/aarch64-linux-gnu",
-                "-lklu"
-            ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "detail": "编译器: /usr/bin/g++"
-        },
-        {
-            "type": "cppbuild",
-            "label": "My Design Compile(KLU)",
-            "command": "/usr/bin/g++",
-            "args": [
-                "-fdiagnostics-color=always",
-                "-g",
-                "${workspaceFolder}/my_code/src/*.cpp",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}",
-                "-I/usr/include/suitesparse",
-                "-I${workspaceFolder}/my_code/include",
-                "-L/usr/lib/aarch64-linux-gnu",
-                "-lklu"
+                "-L/home/parallels/Documents/design/GitHub/Chen_xiaoming/nicslu/nicslu202110/linux/lib_centos6_x64_gcc482_fma/int64",
+                "-lklu",
+                "-lumfpack",// 添加 UMFPACK 库链接器选项
+                "-lnicslu" // 添加 NICSLU 库链接器选项
             ],
             "options": {
                 "cwd": "${fileDirname}"
