@@ -16,7 +16,7 @@ int main()
     // 先进行转换
     FileReader reader; 
     // 定义路径
-    std::string DataPath = "/home/parallels/Documents/design/banchmark-matrix0222/case2_1.txt";
+    std::string DataPath = "/home/wangbohan/design/banchmark-matrix0222/case2_1.txt";
     // 调用函数读取并存储数据
     reader.readAndStoreData(DataPath);
     const std::vector<FileReader::Entry>& entries = reader.getEntries();

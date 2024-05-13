@@ -6,7 +6,8 @@
                 "${workspaceFolder}/**",
                 "/usr/include/suitesparse",
                 "/usr/lib",
-                "${workspaceFolder}/my_code/include"
+                "${workspaceFolder}/my_code/include",
+                "${workspaceFolder}/GitHub/Chen_xiaoming/nicslu"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
