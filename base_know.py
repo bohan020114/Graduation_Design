@@ -2,7 +2,7 @@
 Description: 
 Author: Bohan Wang
 Date: 2024-05-12 18:56:48
-LastEditTime: 2024-05-13 06:00:08
+LastEditTime: 2024-05-13 22:16:42
 LastEditors:  
 '''
 import numpy as np
@@ -21,7 +21,7 @@ def lu_decomposition(A):
 
 # 定义 4x4 矩阵 A
 A = np.array([
-    [2, 1, 2, 1],
+    [1, 1, 2, 1],
     [0, 3, 1, 0],
     [0, 1, 9, 0],
     [4, 2, 0, 8]

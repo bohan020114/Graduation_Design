@@ -17,8 +17,8 @@
                 "-L/usr/lib/aarch64-linux-gnu",
                 "-L/home/parallels/Documents/design/GitHub/Chen_xiaoming/nicslu/nicslu202110/linux/lib_centos6_x64_gcc482_no_fma/int64",
                 "-lklu",
-                "-lumfpack",// 添加 UMFPACK 库链接器选项
-                // "-lnicslu" // 添加 NICSLU 库链接器选项
+                "-lumfpack",
+                "-fopenmp" // 添加 -fopenmp 启用 OpenMP 支持
             ],
             "options": {
                 "cwd": "${fileDirname}"

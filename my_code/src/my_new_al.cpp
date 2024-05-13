@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: Bohan Wang
  * @Date: 2024-03-29 15:15:53
- * @LastEditTime: 2024-05-13 03:14:31
+ * @LastEditTime: 2024-05-13 16:44:32
  * @LastEditors:  
  */
 #include <iostream>
@@ -31,7 +31,7 @@ int main() {
 
     // 设置时钟启动
     Timer timer;
-    int check = perform_lu_decomposition_Parallel(reader.getDim() + 1, Ap, Ai, Ax);
+    int check = perform_lu_decomposition_Parallel_noParallel(reader.getDim() + 1, Ap, Ai, Ax);
     // 时钟计时结果
     std::cout << "Total time: " << timer.elapsed() << " seconds" << std::endl;
     
